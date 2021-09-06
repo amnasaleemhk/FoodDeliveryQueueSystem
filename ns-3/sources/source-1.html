@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HelloResource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.Practice1.resources</a>
+</div>
+
+<h1>Coverage Summary for Class: HelloResource (com.example.Practice1.resources)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HelloResource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47.6%
+  </span>
+  <span class="absValue">
+    (10/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.example.Practice1.resources;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.amazonaws.services.sqs.AmazonSQS;
+<i class="no-highlight">4</i>&nbsp;import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+<i class="no-highlight">5</i>&nbsp;import com.amazonaws.services.sqs.model.Message;
+<i class="no-highlight">6</i>&nbsp;import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+<i class="no-highlight">7</i>&nbsp;import com.example.Practice1.classes.Orders;
+<i class="no-highlight">8</i>&nbsp;import com.example.Practice1.classes.SES;
+<i class="no-highlight">9</i>&nbsp;import com.example.Practice1.classes.SQS;
+<i class="no-highlight">10</i>&nbsp;import com.example.Practice1.classes.sqsMessage;
+<i class="no-highlight">11</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i class="no-highlight">12</i>&nbsp;import com.fasterxml.jackson.databind.ObjectReader;
+<i class="no-highlight">13</i>&nbsp;import com.fasterxml.jackson.databind.ObjectWriter;
+<i class="no-highlight">14</i>&nbsp;import com.google.gson.Gson;
+<i class="no-highlight">15</i>&nbsp;import com.google.gson.JsonObject;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;import javax.ws.rs.*;
+<i class="no-highlight">18</i>&nbsp;import javax.ws.rs.core.Response;
+<i class="no-highlight">19</i>&nbsp;import java.sql.SQLException;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;@Path(&quot;/food-point&quot;)
+<b class="fc"><i class="no-highlight">22</i>&nbsp;public class HelloResource {</b>
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    //-------------------Get Request----------------------
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @GET
+<i class="no-highlight">27</i>&nbsp;    @Produces(&quot;text/plain&quot;)
+<i class="no-highlight">28</i>&nbsp;    public String hello() throws Exception {
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        return &quot;Sit Tight! Your meal is just few minutes away&quot;;</b>
+<i class="no-highlight">30</i>&nbsp;    }
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    //-------------------Post Request-----------------------
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    @POST
+<i class="no-highlight">35</i>&nbsp;    @Path(&quot;/takeOrder&quot;)
+<i class="no-highlight">36</i>&nbsp;    @Produces
+<i class="no-highlight">37</i>&nbsp;    public Response postJSON(String payload) throws Exception {
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        final Orders obj = new Gson().fromJson(payload, Orders.class);</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        obj.insertpayloadintoDB(</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;                obj.getItemName(),</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;                obj.getCategory(),</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;                obj.getPreparationTime(),</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;                obj.getStatus(),</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;                obj.getCustomerName(),</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;                obj.getEmailID()</b>
+<i class="no-highlight">46</i>&nbsp;        );
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        final SQS object = new Gson().fromJson(payload, SQS.class);</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        object.send(object);</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        System.out.println(&quot;Order has successfully pushed into SQS&quot;);</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        return Response.ok(obj.Receipt()).build();</b>
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    @GET
+<i class="no-highlight">55</i>&nbsp;    @Path(&quot;/next&quot;)
+<i class="no-highlight">56</i>&nbsp;    @Produces
+<i class="no-highlight">57</i>&nbsp;    public Response getJSON() throws Exception{
+<b class="fc"><i class="no-highlight">58</i>&nbsp;        SQS obj = new SQS();</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        return Response.ok(obj.read()).build();</b>
+<i class="no-highlight">60</i>&nbsp;
+<i class="no-highlight">61</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">62</i>&nbsp;    static ObjectReader SQS_READER = new ObjectMapper().readerFor(SQS.class);</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;    static ObjectWriter SQS_WRITER = new ObjectMapper().writerFor(SQS.class);</b>
+<i class="no-highlight">64</i>&nbsp;
+<i class="no-highlight">65</i>&nbsp;    @POST
+<i class="no-highlight">66</i>&nbsp;    @Path(&quot;/sendEmail&quot;)
+<i class="no-highlight">67</i>&nbsp;    @Produces
+<i class="no-highlight">68</i>&nbsp;    public Response postJson() throws SQLException {
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        SQS object = new SQS();</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;        object.EmailnDel();</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        return Response.ok().build();</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-06 12:42</div>
+</div>
+</body>
+</html>

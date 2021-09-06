@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SES</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.Practice1.classes</a>
+</div>
+
+<h1>Coverage Summary for Class: SES (com.example.Practice1.classes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SES</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (20/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.example.Practice1.classes;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.amazonaws.client.builder.AwsClientBuilder;
+<i class="no-highlight">4</i>&nbsp;import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+<i class="no-highlight">5</i>&nbsp;import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
+<i class="no-highlight">6</i>&nbsp;import com.amazonaws.services.simpleemail.model.*;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;
+<b class="fc"><i class="no-highlight">9</i>&nbsp;public class SES {</b>
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;    public void notifyUserByEmail(String Email) {
+<i class="no-highlight">12</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">13</i>&nbsp;            String Sender = &quot;11amnasaleem11@gmail.com&quot;;</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;            String EmailSubject = &quot;Order Status&quot;;</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;            final String EmailContent = &quot;Dear Customer, You Order is ready to deliver&quot; +</b>
+<i class="no-highlight">16</i>&nbsp;                                    &quot;We look forward to serve you again&quot;;
+<i class="no-highlight">17</i>&nbsp;            AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder
+<b class="fc"><i class="no-highlight">18</i>&nbsp;                    .standard().withEndpointConfiguration</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;                            (new AwsClientBuilder.EndpointConfiguration</b>
+<i class="no-highlight">20</i>&nbsp;                                    (&quot;http://localhost:4566&quot;, &quot;us-east-1&quot;))
+<b class="fc"><i class="no-highlight">21</i>&nbsp;                    .build();</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;            SendEmailRequest request = new SendEmailRequest()</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;                    .withDestination(new Destination().withToAddresses())</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;                    .withMessage(new Message()</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;                            .withBody(new Body()</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;                                    .withText(new Content()</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;                                            .withCharset(&quot;UTF-8&quot;).withData(EmailContent)))</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;                            .withSubject(new Content()</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;                                    .withCharset(&quot;UTF-8&quot;).withData(EmailSubject)))</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;                    .withSource(Sender);</b>
+<i class="no-highlight">31</i>&nbsp;            //client.sendEmail(request);
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            System.out.println(&quot;Email generated successfully&quot;);</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;            System.out.println(EmailContent);</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        } catch (Exception ex) {</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            System.out.println(&quot;Failed to send email.. Error message: &quot; + ex.getMessage());</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;    }</b>
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-06 12:42</div>
+</div>
+</body>
+</html>

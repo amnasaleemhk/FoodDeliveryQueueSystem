@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SQS</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.Practice1.classes</a>
+</div>
+
+<h1>Coverage Summary for Class: SQS (com.example.Practice1.classes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SQS</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (10/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (63/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.example.Practice1.classes;
+<i class="no-highlight">2</i>&nbsp;import com.amazonaws.services.sqs.model.SendMessageResult;
+<i class="no-highlight">3</i>&nbsp;import com.amazonaws.services.sqs.AmazonSQS;
+<i class="no-highlight">4</i>&nbsp;import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+<i class="no-highlight">5</i>&nbsp;import com.amazonaws.services.sqs.model.*;
+<i class="no-highlight">6</i>&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+<i class="no-highlight">7</i>&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+<i class="no-highlight">8</i>&nbsp;import com.fasterxml.jackson.databind.ObjectWriter;
+<i class="no-highlight">9</i>&nbsp;import com.google.gson.Gson;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;import java.sql.Connection;
+<i class="no-highlight">13</i>&nbsp;import java.sql.DriverManager;
+<i class="no-highlight">14</i>&nbsp;import java.sql.SQLException;
+<i class="no-highlight">15</i>&nbsp;import java.sql.Statement;
+<i class="no-highlight">16</i>&nbsp;import java.util.List;
+<i class="no-highlight">17</i>&nbsp;
+<b class="fc"><i class="no-highlight">18</i>&nbsp;public class SQS {</b>
+<i class="no-highlight">19</i>&nbsp;    int idOrder;
+<i class="no-highlight">20</i>&nbsp;    String ItemName;
+<i class="no-highlight">21</i>&nbsp;    String Category;
+<i class="no-highlight">22</i>&nbsp;    String EmailID;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    /*public SQS(int idOrder, String itemName, String category, String emailID) {
+<i class="no-highlight">25</i>&nbsp;        this.idOrder = idOrder;
+<i class="no-highlight">26</i>&nbsp;        ItemName = itemName;
+<i class="no-highlight">27</i>&nbsp;        Category = category;
+<i class="no-highlight">28</i>&nbsp;        EmailID = emailID;
+<i class="no-highlight">29</i>&nbsp;    }*/
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;    public int getIdOrder() {
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        return idOrder;</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    public String getItemName() {
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        return ItemName;</b>
+<i class="no-highlight">37</i>&nbsp;    }
+<i class="no-highlight">38</i>&nbsp;    public String getCategory() {
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        return Category;</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;    public String getEmailID() {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        return EmailID;</b>
+<i class="no-highlight">43</i>&nbsp;    }
+<i class="no-highlight">44</i>&nbsp;
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    static ObjectWriter SQS_WRITER = new ObjectMapper().writerFor(SQS.class);</b>
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    public Object send(SQS sqsobj) {
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        AmazonSQS sqs = AmazonSQSClientBuilder.standard().build();</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        String queueURL = &quot;http://localhost:4566/000000000000/OrdersQueue&quot;;</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        String message = null;</b>
+<i class="no-highlight">52</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">53</i>&nbsp;            message = SQS_WRITER.writeValueAsString(sqsobj);</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;            System.out.println(message);</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;            SendMessageRequest send_msg_req = new SendMessageRequest().withQueueUrl(queueURL)</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;                    .withMessageBody(message)</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;                    .withDelaySeconds(0);</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;            SendMessageResult send_msg_rslt = sqs.sendMessage(send_msg_req);</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        } catch (JsonProcessingException e) {</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;        return queueURL;</b>
+<i class="no-highlight">63</i>&nbsp;    }
+<i class="no-highlight">64</i>&nbsp;
+<i class="no-highlight">65</i>&nbsp;    public String read() {
+<i class="no-highlight">66</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">67</i>&nbsp;            AmazonSQS sqs = AmazonSQSClientBuilder.standard().build();</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;            String queueURL = &quot;http://localhost:4566/000000000000/OrdersQueue&quot;;</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;            ReceiveMessageRequest receive_request = new ReceiveMessageRequest()</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;                    .withQueueUrl(queueURL)</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;                    .withVisibilityTimeout(0)</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;                    .withMaxNumberOfMessages(1);</b>
+<b class="fc"><i class="no-highlight">73</i>&nbsp;            List&lt;Message&gt; messages = sqs.receiveMessage(receive_request).getMessages();</b>
+<b class="fc"><i class="no-highlight">74</i>&nbsp;            for (Message msg : messages) {</b>
+<b class="fc"><i class="no-highlight">75</i>&nbsp;                System.out.println(&quot;Message received&quot;);</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;                System.out.println(msg.getBody());</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;                System.out.println(&quot;______________________________________________&quot;);</b>
+<b class="fc"><i class="no-highlight">78</i>&nbsp;                return &quot;{&quot; +</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;                        &quot;Message Content: &quot; + msg.getBody() + &#39;\n&#39; +</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;                        &quot;Message ID: &quot; + msg.getMessageId() + &#39;\n&#39; +</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;                        &quot;Receipt Handle: &quot; + msg.getReceiptHandle() + &#39;\n&#39; +</b>
+<i class="no-highlight">82</i>&nbsp;                        &#39;}&#39;;
+<i class="no-highlight">83</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        } catch (Exception exp) {</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;            System.out.println(&quot;Failed!!&quot;);</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;        return null;</b>
+<i class="no-highlight">88</i>&nbsp;    }
+<i class="no-highlight">89</i>&nbsp;    public void delete() {
+<i class="no-highlight">90</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">91</i>&nbsp;            AmazonSQS sqs = AmazonSQSClientBuilder.standard().build();</b>
+<b class="fc"><i class="no-highlight">92</i>&nbsp;            String queueURL = &quot;http://localhost:4566/000000000000/OrdersQueue&quot;;</b>
+<b class="fc"><i class="no-highlight">93</i>&nbsp;            ReceiveMessageRequest receive_request = new ReceiveMessageRequest()</b>
+<b class="fc"><i class="no-highlight">94</i>&nbsp;                    .withQueueUrl(queueURL)</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;                    .withVisibilityTimeout(10)</b>
+<b class="fc"><i class="no-highlight">96</i>&nbsp;                    .withMaxNumberOfMessages(1);</b>
+<b class="fc"><i class="no-highlight">97</i>&nbsp;            List&lt;Message&gt; messages = sqs.receiveMessage(receive_request).getMessages();</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;            for (Message msg : messages) {</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;                DeleteMessageResult res = sqs.deleteMessage(queueURL, msg.getReceiptHandle());</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;                System.out.println(res);</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;                System.out.println(&quot;Message has been deleted successfully&quot;);</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            System.out.println(e);</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">106</i>&nbsp;    }</b>
+<i class="no-highlight">107</i>&nbsp;
+<i class="no-highlight">108</i>&nbsp;    public void EmailnDel() throws SQLException {
+<i class="no-highlight">109</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">110</i>&nbsp;            String message = read();</b>
+<b class="fc"><i class="no-highlight">111</i>&nbsp;            sqsMessage object = new Gson().fromJson(message, sqsMessage.class);</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;            SES obj = new SES();</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;            obj.notifyUserByEmail(object.getEmail());</b>
+<i class="no-highlight">114</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">115</i>&nbsp;        catch (Exception e) {</b>
+<b class="fc"><i class="no-highlight">116</i>&nbsp;            System.out.println(&quot;Email failed to send.. Error: &quot; + e.getMessage());</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">118</i>&nbsp;        delete();</b>
+<b class="fc"><i class="no-highlight">119</i>&nbsp;        updateDataBase();</b>
+<i class="no-highlight">120</i>&nbsp;
+<b class="fc"><i class="no-highlight">121</i>&nbsp;    }</b>
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;    public void updateDataBase() throws SQLException {
+<b class="fc"><i class="no-highlight">124</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;        Statement stmt = null;</b>
+<b class="fc"><i class="no-highlight">126</i>&nbsp;        int rs4 = 0;</b>
+<i class="no-highlight">127</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">128</i>&nbsp;            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</b>
+<b class="fc"><i class="no-highlight">129</i>&nbsp;            conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/fooddelivery&quot;, &quot;root&quot;, &quot;&quot;);</b>
+<b class="fc"><i class="no-highlight">130</i>&nbsp;            stmt = conn.createStatement();</b>
+<b class="fc"><i class="no-highlight">131</i>&nbsp;            rs4 = stmt.executeUpdate(&quot;DELETE FROM fooddelivery.orders LIMIT 1&quot;);</b>
+<b class="nc"><i class="no-highlight">132</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">133</i>&nbsp;            System.out.println(e);</b>
+<i class="no-highlight">134</i>&nbsp;        } finally {
+<b class="fc"><i class="no-highlight">135</i>&nbsp;            conn.close();</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;            stmt.close();</b>
+<b class="fc"><i class="no-highlight">137</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;    }</b>
+<i class="no-highlight">139</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-06 12:57</div>
+</div>
+</body>
+</html>
